@@ -101,23 +101,10 @@ module FoundationRailsHelper
       options ||= {}
       options[:class] ||= ""
       options[:class] += " error" if has_error?(attribute)
+      options[:class] += " explanation"
       options[:tag] ||= :div
       tag = options.delete(:tag)
       content_tag(tag, content, options)
-    end
-
-    def custom_explanation(attribute, text, options, &block)
-      if text == false
-        text = ""
-      elsif text.nil?
-        text = object.class.human_attribute_name(attribute)
-      end
-      text = block.call.html_safe + text if block_given?
-      options ||= {}
-      options[:class] ||= ""
-      options[:class] += " error" if has_error?(attribute)
-
-      label(attribute, text, options)
     end
 
     def error_and_hint(attribute, options = {})

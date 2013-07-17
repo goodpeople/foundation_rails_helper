@@ -84,6 +84,29 @@ module FoundationRailsHelper
     end
 
     def custom_label(attribute, text, options, &block)
+      if text == true
+        text = ""
+      elsif text.nil?
+        text = object.class.human_attribute_name(attribute)
+      end
+      text = block.call.html_safe + text if block_given?
+      options ||= {}
+      options[:class] ||= ""
+      options[:class] += " error" if has_error?(attribute)
+      label(attribute, text, options)
+    end
+
+    def custom_explanation(attribute, content, options, &block)
+      content = block.call.html_safe + content if block_given?
+      options ||= {}
+      options[:class] ||= ""
+      options[:class] += " error" if has_error?(attribute)
+      options[:tag] ||= :div
+      tag = options.delete(:tag)
+      content_tag(tag, content, options)
+    end
+
+    def custom_explanation(attribute, text, options, &block)
       if text == false
         text = ""
       elsif text.nil?
@@ -93,6 +116,7 @@ module FoundationRailsHelper
       options ||= {}
       options[:class] ||= ""
       options[:class] += " error" if has_error?(attribute)
+
       label(attribute, text, options)
     end
 
@@ -105,7 +129,8 @@ module FoundationRailsHelper
 
     def field(attribute, options, &block)
       html = ''.html_safe
-      html = custom_label(attribute, options[:label], options[:label_options]) if false != options[:label]
+      html = custom_label(attribute, options[:label], options[:label_options]) if options[:label]
+      html += custom_explanation(attribute, options[:explanation], options[:explanation_options]) if options[:explanation]
       options[:class] ||= "medium"
       options[:class] = "#{options[:class]} input-text"
       options[:class] += " error" if has_error?(attribute)

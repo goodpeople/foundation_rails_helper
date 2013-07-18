@@ -60,8 +60,56 @@ $ bundle
 
 ## Usage
 
-There is nothing additional to do for form helpers.
+There is nothing additional to do for form helpers. But now you have several other options to put in one of this form helpers:
+** file_field, email_field, text_field, text_area, telephone_field, phone_field, url_field, number_field **
 
+There is no need to put the:
+
+```ruby
+<% f.text_field .... label: false... %>
+```
+instead now if you want to place the label you need to put:
+
+```ruby
+<% f.text_field .... label: true... %>
+```
+or to place a custom label:
+
+```ruby
+<% f.text_field .... label: 'Custom Label'... %>
+```
+Also you can add custom classes to the label, to do this you need to pass the following:
+
+```ruby
+<% f.text_field .... label: true, label_options: { class: 'class 1, class 2' }... %>
+```
+
+#### NEW: Explanation of the field
+Now we also have the ability to display an explanation of the field, would be like a description of it, for doing this you have to parameter ** explanation, explanation_options **
+
+To place the explanation you need to add this to the helper:
+
+```ruby
+<% f.text_field .... explanation: 'Text for the explanation'... %>
+```
+This will create above the input field a field like this:
+
+```ruby
+ <div class="explanation">Text for the explanation</div>
+```
+And because it use the TagHelper [content\_tag](http://apidock.com/rails/v3.2.13/ActionView/Helpers/TagHelper/content_tag) we can pass what ever tag we want to printout in the explanation_options, like this
+
+```ruby
+<% f.text_field .... explanation: 'Text for the explanation', explanation_options: { tag: :p, class: 'extra_class1, extra_class2' }... %>
+```
+This will create somthing like this
+
+```ruby
+ <p class="explanation, extra_class1, extra_class2">Text for the explanation</p>
+```
+above the input field
+
+#### Flash Messages
 To get access to `display_flash_messages` in your views, add
 
 ```ruby

@@ -1,3 +1,3 @@
 module FoundationRailsHelper
-  VERSION = "0.3.1.p1"
+  VERSION = "0.3.1.p2"
 end

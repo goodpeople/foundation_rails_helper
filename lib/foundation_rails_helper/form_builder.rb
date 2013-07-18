@@ -117,12 +117,14 @@ module FoundationRailsHelper
     def field(attribute, options, &block)
       html = ''.html_safe
       html = custom_label(attribute, options[:label], options[:label_options]) if options[:label]
-      html += custom_explanation(attribute, options[:explanation], options[:explanation_options]) if options[:explanation]
+      html += custom_explanation(attribute, options[:explanation], options[:explanation_options]) if (options[:explanation]
       options[:class] ||= "medium"
       options[:class] = "#{options[:class]} input-text"
       options[:class] += " error" if has_error?(attribute)
       options.delete(:label)
       options.delete(:label_options)
+      options.delete(:explanation)
+      options.delete(:explanation_options)
       html += yield(options)
       html += error_and_hint(attribute, options)
     end
